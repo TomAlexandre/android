@@ -8,7 +8,7 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.concurrent.TimeUnit;
-
+// 工厂模式
 public class DriverFactory {
     private static DriverFactory instace;
     public static DriverFactory getInstance() {
