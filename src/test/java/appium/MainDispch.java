@@ -1,7 +1,10 @@
 package appium;
 
 import io.appium.java_client.android.AndroidDriver;
+import org.openqa.selenium.By;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -22,19 +25,15 @@ public class MainDispch extends BaseMed {
     }
 
     void startLogin () throws MalformedURLException {
-        DesiredCapabilities caps = new DesiredCapabilities();//
-        caps.setCapability("platformName", "android");
-        caps.setCapability("deviceName", "xxx");
-        caps.setCapability("uid", "127.0.0.1:7555");
-        caps.setCapability("appPackage", "com.tencent.wework");
-        caps.setCapability("noReset", "true");
-        caps.setCapability("appActivity", ".launch.WwMainActivity");
-        apDriver = new AndroidDriver<>(new URL("http://localhost:4723/wd/hub"), caps);//?
-        apDriver.manage().timeouts().implicitlyWait(60, TimeUnit.SECONDS);
+        String platformName = System.getenv("driver");
+        apDriver = DriverFactory.getInstance().createAppiumDriver(platformName);
+        new WebDriverWait(apDriver,120)
+                .until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@text='通讯录']")));
     }
 
     public ServiceImpl jumpServieIpl () {
-//        click(By.linkText("通讯录"), INIT_NUM0);
+//        click(By.xpath("//*[@text='通讯录']"));
+//        click(By.linkText("通讯录"));
         return new ServiceImpl(apDriver);
     }
 }

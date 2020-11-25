@@ -15,6 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * @Description: ContactMenuTest演练
  * @Date: 2020-11-16 11:14 AM
  */
+//添加断言
 public class ServiceImplTest {
 
     public static MainDispch mainMenu;
@@ -24,30 +25,35 @@ public class ServiceImplTest {
         mainMenu = new MainDispch();
     }
 
+    // getCurrentDepartName
     @Test
     public void addMember() throws InterruptedException {
-        mainMenu.jumpServieIpl().addMeb("王磊9", "13212780858", "445282673@qq.com", "11abc");
+        mainMenu.jumpServieIpl().addMember("王磊10", "13212780858", "445282673@qq.com", "11abc");
+//        assertTrue(mainMenu.jumpServieIpl().getCurrentDepartName().contains("alibaba111"));
     }
 
     @Test
-    public void sendMsg() {
-        mainMenu.jumpServieIpl().search("alibaba").sendMsg("你好");
+    public void sendMsg() throws InterruptedException {
+        mainMenu.jumpServieIpl().search("alibaba").sendMessage("你好");
+//        assertTrue(mainMenu.jumpServieIpl().getCurrentDepartName().contains("445282672"));
     }
 
     @Test
-    public void searchMember() {
-        mainMenu.jumpServieIpl().search("alibaba").back();
+    public void searchMember() throws InterruptedException {
+        mainMenu.jumpServieIpl().search("alibaba").backToHomePage();
+//        assertTrue(mainMenu.jumpServieIpl().getCurrentDepartName().contains("445282672"));
     }
 
     @Test
     public void modifyMember() throws InterruptedException {
-        mainMenu.jumpServieIpl().search("alibaba").updateMeb("alibaba11", "11abc1");
+        mainMenu.jumpServieIpl().search("445282672").updateMember("alibaba111", "11abc1");
+        assertTrue(mainMenu.jumpServieIpl().getCurrentDepartName().contains("alibaba111"));
     }
 
-
     @Test
-    public void deleteMember() {
-        mainMenu.jumpServieIpl().search("alibaba").deleteMeb();
+    public void deleteMember() throws InterruptedException {
+        mainMenu.jumpServieIpl().search("445282672").deleteMember();
+        assertTrue(mainMenu.jumpServieIpl().getCurrentDepartName().contains("445282672"));
     }
 
 }

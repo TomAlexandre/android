@@ -1,10 +1,8 @@
 package appium;
 
 import io.appium.java_client.AppiumDriver;
-import org.junit.jupiter.api.Test;
-import org.junit.platform.commons.util.StringUtils;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 /**
@@ -17,88 +15,175 @@ import org.openqa.selenium.support.ui.WebDriverWait;
  */
 public class ServiceImpl extends BaseMed {
 
+
+    private By addressBook = By.xpath(ADDRESSBOOK);
+
+    private By addMember = By.xpath(ADDMEMBER);
+
+    private By manualInputAdd = By.id("cox");
+
+    private By inputUsername = By.xpath("/hierarchy/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.RelativeLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.RelativeLayout[1]/android.widget.RelativeLayout/android.widget.EditText");
+
+    private By inputMobile = By.id("fow");
+
+    private By inputEmail = By.xpath("hierarchy/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.RelativeLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.RelativeLayout[4]/android.widget.RelativeLayout/android.widget.EditText");
+
+    private By manualInput = By.xpath("/hierarchy/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.RelativeLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.RelativeLayout[7]/android.widget.RelativeLayout/android.widget.LinearLayout");
+
+    private By inputAddress = By.id("iz");
+
+    private By confirmButton = By.id("i6k");
+
+    private By backButton = By.id("i63");
+
+    private By triangleSymbol = By.id("i6d");
+
+    private By editMember = By.id("b_x");
+
+    private By deleteMember = By.id("elh");
+
+    private By confirmDelete = By.id("blx");
+
+    private By sendMessage = By.id("ajv");
+
+    private By inputMessage = By.id("eo7");
+
+    private By sendButton = By.id("eo3");
+
+    private By searchButton = By.id("i6n");
+
+    private By inputName = By.id("gpg");
+
+    private By clickName = By.id("e6d");
+
     public ServiceImpl(AppiumDriver apDriver) {
         super(apDriver);
     }
 
     // 添加成员
-    public ServiceImpl addMeb(String username,String mobile,String email,String address) throws InterruptedException {
+    public ServiceImpl addMember(String username,String mobile,String email,String address) throws InterruptedException {
         wait = new WebDriverWait(apDriver, 30, 1);
-//        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("com.android.settings:id/title")));//?
-        // 通讯录
-        apDriver.findElement(By.xpath("/hierarchy/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.RelativeLayout/android.widget.LinearLayout/android.view.ViewGroup/android.widget.RelativeLayout[2]/android.widget.RelativeLayout/android.widget.TextView")).click();
-        // 添加成员
-        apDriver.findElement(By.xpath("/hierarchy/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.RelativeLayout/android.widget.FrameLayout[2]/android.widget.RelativeLayout/android.widget.ListView/android.widget.RelativeLayout[6]/android.widget.RelativeLayout")).click();
-        // 手动添加
-        apDriver.findElement(By.id("cox")).click();
-        apDriver.findElement(By.xpath("/hierarchy/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.RelativeLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.RelativeLayout[1]/android.widget.RelativeLayout/android.widget.EditText"))
-                .sendKeys(username);
-        apDriver.findElement(By.id("fow")).sendKeys(mobile);
-        apDriver.findElement(By.xpath("/hierarchy/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.RelativeLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.RelativeLayout[4]/android.widget.RelativeLayout/android.widget.EditText"))
-                .sendKeys(email);
-        apDriver.findElement(By.id("iy")).click();
-        apDriver.findElement(By.id("iz")).sendKeys(address);
-        apDriver.findElement(By.id("i6k")).click();
-        Thread.sleep(1000);
-        apDriver.findElement(By.id("i6k")).click();
-        Thread.sleep(1000);
-        apDriver.findElement(By.id("i63")).click();
+        enterManualInput() // 进入手动添加成员页面
+                .inputUserInformation(username,mobile,email,address) // 输入用用户名、手机号、电子邮件、地址信息
+                .backToOriginalPage(); // 返回通讯录页面
         return this;
     }
 
+
     // 删除成员
-    public void deleteMeb() {
-        apDriver.findElement(By.id("i6d")).click();
-        apDriver.findElement(By.id("b_x")).click();
-        apDriver.findElement(By.id("elh")).click();
-        apDriver.findElement(By.id("blx")).click();
-        apDriver.findElement(By.id("i63")).click();
+    public void deleteMember() {
+        getIntoEditPage()
+                .completeDlete();
     }
 
     // 更新成员
-    public ServiceImpl updateMeb(String username,String address) throws InterruptedException {
-        apDriver.findElement(By.id("i6d")).click();
-        apDriver.findElement(By.id("b_x")).click();
-        apDriver.findElement(By.xpath("/hierarchy/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.RelativeLayout/android.widget.ScrollView/android.widget.LinearLayout/android.widget.RelativeLayout[1]/android.widget.RelativeLayout/android.widget.EditText"))
-                .sendKeys(username);
-        apDriver.findElement(By.id("iy")).click();
-        apDriver.findElement(By.id("iz")).sendKeys(address);
-        apDriver.findElement(By.id("i6k")).click();
-        Thread.sleep(1000);
-        apDriver.findElement(By.id("i6k")).click();
-        Thread.sleep(1000);
-        apDriver.findElement(By.id("i63")).click();
-        Thread.sleep(1000);
-        apDriver.findElement(By.id("i63")).click();
+    public ServiceImpl updateMember(String username,String address) throws InterruptedException {
+        getIntoEditPage()
+                .inputUserInformation(username,address)
+                .backToOriginalPage();
         return this;
     }
 
-    // 查询成员
-    public ServiceImpl back() {
-        apDriver.findElement(By.id("i63")).click();
-        return this;
-    }
 
     // 发送信息
-    public ServiceImpl sendMsg(String message) {
+    public ServiceImpl sendMessage(String message) throws InterruptedException {
         // 开始聊天
-        apDriver.findElement(By.id("ajv")).click();
-        apDriver.findElement(By.id("eo7")).sendKeys(message);
-        apDriver.findElement(By.id("eo3")).click();
-        // 退出聊天
-        apDriver.findElement(By.id("i63")).click();
+      click(sendMessage)
+            .sendKeys(inputMessage,message)
+            .click(sendButton)
+            .click(backButton);
+        return this;
+    }
+
+    // 查询成员名称
+    public ServiceImpl search(String memberName) throws InterruptedException {
+        wait = new WebDriverWait(apDriver, 30, 1);
+        searchName(memberName);
+        return this;
+    }
+
+    public String getCurrentDepartName () {
+        StringBuffer buffer = new StringBuffer();
+        apDriver.findElements(addressBook).forEach(content->{
+            buffer.append(((WebElement)content).getText());
+        });
+        System.out.println("buffer.toString()" + buffer.toString());
+        return buffer.toString();
+    }
+
+     // 进入手动添加成员页面
+    ServiceImpl enterManualInput () {
+        click(addressBook)
+                .click(addMember)
+                .click(manualInputAdd);
+        return this;
+    }
+
+    // 输入用户具体信息
+    ServiceImpl inputUserInformation (String username,String mobile,String email,String address) {
+        sendKeys(inputUsername,username)
+                .sendKeys(inputMobile,mobile)
+                .sendKeys(inputEmail,email)
+                .click(manualInput)
+                .sendKeys(inputAddress,address);
+        return this;
+    }
+
+    // 输入用户地址信息
+    ServiceImpl inputUserInformation (String username,String address) throws InterruptedException {
+        sendKeys(inputUsername,username)
+                .click(manualInput)
+                .threadSleep(1000)
+                .sendKeys(inputAddress,address);
+        return this;
+    }
+
+    // 返回通讯录页面
+    ServiceImpl backToPage () throws InterruptedException {
+        click(confirmButton)
+                .click(confirmButton)
+                .click(backButton);
+        return this;
+    }
+
+    // 返回通讯录页面
+    ServiceImpl backToOriginalPage () throws InterruptedException {
+        backToPage ()
+            .click(backButton);
+        return this;
+    }
+
+
+    // 进入编辑页面
+    public ServiceImpl getIntoEditPage () {
+        click(triangleSymbol)
+                .click(editMember);
+        return this;
+    }
+
+    // 完成删除
+    public ServiceImpl completeDlete () {
+        click(deleteMember)
+                .click(confirmDelete)
+                .click(backButton);
         return this;
     }
 
     // 底层查询
-    public ServiceImpl search(String member) {
-        wait = new WebDriverWait(apDriver, 30, 1);
-//        wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("com.android.settings:id/title")));//?
-        // 通讯录
-        apDriver.findElement(By.xpath("/hierarchy/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.RelativeLayout/android.widget.LinearLayout/android.view.ViewGroup/android.widget.RelativeLayout[2]/android.widget.RelativeLayout/android.widget.TextView")).click();
-        apDriver.findElement(By.id("i6n")).click();
-        apDriver.findElement(By.id("gpg")).sendKeys(member);
-        apDriver.findElement(By.id("e6d")).click();
+    public ServiceImpl searchName(String memberName) throws InterruptedException {
+        click(addressBook) // 跳转通讯录
+                .click(searchButton)
+                .sendKeys(inputName,memberName)
+                .threadSleep(1000)
+                .click(clickName)
+                .threadSleep(1000); // 为了等待信息出现
+        return this;
+    }
+
+    // 一次返回
+    public ServiceImpl backToHomePage() throws InterruptedException {
+        click(backButton)
+            .click(backButton);
         return this;
     }
 
